@@ -3,14 +3,8 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Path = System.IO.Path;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace Async_await
 {
@@ -18,90 +12,104 @@ namespace Async_await
     {
         static Random random = new Random();
         string sourceDir = string.Empty;
-        string backupDir = string.Empty;
-
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-            List.Items.Add(await GenerateValue());
-        }
-        Task<int> GenerateValue()
-        {
-            return Task.Run(() =>
-            {
-                Thread.Sleep(random.Next(5000));
-                return random.Next(1000);
-            }
-
-            );
-            
-        }
+        string searchWord = string.Empty;
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            // Вибір директорії для пошуку
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                sourceDir = dialog.FileName;  
-                MessageBox.Show("Ви вибрали: " + sourceDir);
+                sourceDir = dialog.FileName;
+                MessageBox.Show("Ви вибрали директорію: " + sourceDir);
             }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            // Введення слова для пошуку
+            searchWord = SearchWordTextBox.Text;
+            if (string.IsNullOrEmpty(searchWord))
             {
-                backupDir = dialog.FileName;  
-                MessageBox.Show("Ви вибрали: " + backupDir);
+                MessageBox.Show("Будь ласка, введіть слово для пошуку.");
+                return;
+            }
+            else
+            {
+                MessageBox.Show("Слово для пошуку: " + searchWord);
             }
         }
-
 
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(sourceDir) || string.IsNullOrEmpty(backupDir))
+            if (string.IsNullOrEmpty(sourceDir) || string.IsNullOrEmpty(searchWord))
             {
-                MessageBox.Show("Будь ласка, виберіть файл і директорію для резервної копії.");
+                MessageBox.Show("Будь ласка, виберіть директорію і введіть слово для пошуку.");
                 return;
             }
 
-            try
-            {
-                await CopyTo();
-                MessageBox.Show("Файл успішно скопійовано до: " + backupDir); 
-            }
-            catch (DirectoryNotFoundException dirNotFound)
-            {
-                MessageBox.Show("Директорію не знайдено: " + dirNotFound.Message);
-            }
-            catch (IOException ioError)
-            {
-                MessageBox.Show("Помилка копіювання: " + ioError.Message); 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Невідома помилка: " + ex.Message); 
-            }
+            // Асинхронний пошук і аналіз файлів
+            await SearchFilesAsync();
         }
-        int count=0;
-        Task CopyTo()
+
+        private Task SearchFilesAsync()
         {
             return Task.Run(() =>
             {
-                
-                string fileName = Path.GetFileNameWithoutExtension(sourceDir)+(count++)+Path.GetExtension(sourceDir);
+                try
+                {
+                    // Пошук всіх .txt файлів у директорії та піддиректоріях
+                    string[] txtFiles = Directory.GetFiles(sourceDir, "*.txt", SearchOption.AllDirectories);
 
-                File.Copy(sourceDir, Path.Combine(backupDir, fileName), true);
-                Thread.Sleep(1000);
+                    Application.Current.Dispatcher.Invoke(() => List.Items.Clear());
+
+                    // Проходимо по всіх файлах
+                    foreach (string file in txtFiles)
+                    {
+                        int wordCount = CountWordOccurrencesInFile(file, searchWord);
+                        string fileName = Path.GetFileName(file);
+                        string filePath = file;
+
+                        // Додаємо результат у список
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            List.Items.Add($"Назва файлу: {fileName}");
+                            List.Items.Add($"Шлях до файлу: {filePath}");
+                            List.Items.Add($"Кількість входжень слова: {wordCount}");
+                            List.Items.Add("---------------------------------");
+                        });
+                    }
+
+                    if (txtFiles.Length == 0)
+                    {
+                        Application.Current.Dispatcher.Invoke(() => MessageBox.Show("Не знайдено жодного файлу .txt."));
+                    }
+                }
+                catch (DirectoryNotFoundException dirNotFound)
+                {
+                    Application.Current.Dispatcher.Invoke(() => MessageBox.Show("Директорію не знайдено: " + dirNotFound.Message));
+                }
             });
         }
 
+        private int CountWordOccurrencesInFile(string filePath, string word)
+        {
+            int count = 0;
+            try
+            {
+                // Читання всього вмісту файлу
+                string content = File.ReadAllText(filePath);
+
+                // Пошук кількості входжень слова
+                count = content.Split(new string[] { word }, StringSplitOptions.None).Length - 1;
+            }
+            catch (IOException ioEx)
+            {
+                Console.WriteLine("Помилка читання файлу: " + ioEx.Message);
+            }
+
+            return count;
+        }
     }
 }

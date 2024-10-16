@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02_Threads", "02_Threads\02
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03_Lock", "03_Lock\03_Lock.csproj", "{0F52251A-4F81-4FBF-9B7F-39C126E4E2F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async_await", "Async_await\Async_await.csproj", "{3A1C485B-05B9-49DE-8D4B-7861E5E4203C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async_await", "Async_await\Async_await.csproj", "{3A1C485B-05B9-49DE-8D4B-7861E5E4203C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LastDz", "LastDz\LastDz.csproj", "{C1AC71A5-70EA-4590-904A-DF926E0EDCCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Networking.csproj", "{625F7D85-2ED6-45DD-8813-113FD2D088FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "np_sync_sockets", "np_sync_sockets\np_sync_sockets.csproj", "{FC534F63-E1A7-46B3-8314-11555B4F26F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{3A1C485B-05B9-49DE-8D4B-7861E5E4203C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A1C485B-05B9-49DE-8D4B-7861E5E4203C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A1C485B-05B9-49DE-8D4B-7861E5E4203C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1AC71A5-70EA-4590-904A-DF926E0EDCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1AC71A5-70EA-4590-904A-DF926E0EDCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1AC71A5-70EA-4590-904A-DF926E0EDCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1AC71A5-70EA-4590-904A-DF926E0EDCCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625F7D85-2ED6-45DD-8813-113FD2D088FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625F7D85-2ED6-45DD-8813-113FD2D088FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625F7D85-2ED6-45DD-8813-113FD2D088FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625F7D85-2ED6-45DD-8813-113FD2D088FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC534F63-E1A7-46B3-8314-11555B4F26F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC534F63-E1A7-46B3-8314-11555B4F26F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC534F63-E1A7-46B3-8314-11555B4F26F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC534F63-E1A7-46B3-8314-11555B4F26F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,16 @@
-﻿<Window x:Class="Async_await.MainWindow"
+﻿<Window x:Class="LastDz.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Async_await"
+        xmlns:local="clr-namespace:LastDz"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <Button Click="Button_Click">
-                Generate
-            </Button>
-            <Button Click="Button_Click_1">From</Button>
-            <Button Click="Button_Click_2">To</Button>
-            <TextBox x:Name="SearchWordTextBox" Width="200" Height="25" Margin="10,0,0,0" VerticalAlignment="Center"></TextBox>
-            <Button Click="Button_Click_3">Copy</Button>
+            <Button Click="Button_Click">From</Button>
+            <TextBox Width="200" Name="SearchWordTextBox"></TextBox>
+            <Button Click="Button_Click_1">Search</Button>
         </ToolBar>
         <ProgressBar DockPanel.Dock="Bottom" Height="20" Value="20" IsIndeterminate="True"></ProgressBar>
         <ListBox x:Name="List"></ListBox>
